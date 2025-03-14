@@ -91,9 +91,9 @@ def sourceJar(String name, String path) {
 }
 
 def publicationVersion = "2.3.0"
-def coreGroupId = 'com.aidaole.shadow.core'
+def coreGroupId = 'com.tencent.shadow.core'
 def corePath = 'projects/sdk/core'
-def dynamicGroupId = 'com.aidaole.shadow.dynamic'
+def dynamicGroupId = 'com.tencent.shadow.dynamic'
 def dynamicPath = 'projects/sdk/dynamic'
 
 task getPublicationVersion() {
@@ -480,10 +480,7 @@ publishing {
                 url "https://maven.pkg.github.com/" + "${System.env.GITHUB_REPOSITORY}".toLowerCase()
             }
         } else {
-//            mavenLocal()
-            maven {
-                url = "./sdk"
-            }
+            mavenLocal()
         }
     }
 }

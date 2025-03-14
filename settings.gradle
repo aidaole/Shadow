@@ -101,3 +101,5 @@ def copyLocalPropertiesForIncludeBuilds() {
         }
     }
 }
+
+include ':demo:demo-host'

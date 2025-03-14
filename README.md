@@ -22,7 +22,12 @@ clone 项目之后, 如果你的Android Studio比较新, 默认使用的gradle�
 
 ### 1. 编译自己的shadow sdk版本
 
-参考 [README](./projects/sample/README.md), 修改 `buildScripts/maven.gradle` 中的 `coreGroupId` 和 `dynamicGroupId`, 然后将 `mavenLocal()` 替换为 `maven { url = "./sdk" }` 
-可以将编译的产物就放到当前项目目录下的 sdk 文件夹下, 可以看到两个库 `core` 和 `dynamic`, 
-当然也可以什么都不修改直接发布, 包名用的就是tencent的
+参考 [README](./projects/sample/README.md), 修改 `buildScripts/maven.gradle` 中的 `coreGroupId` 和 `dynamicGroupId` 将发布包名修改为自己的
+当然也可以什么都不修改直接发布, 包名默认用的就是tencent的
 
+在根目录下执行 `./gradlew publish` 可以在maven local中看到生成的产物, 主要是 `core` 和 `dynamic` 
+
+### 2. 添加宿主工程
+
+在项目中的 demo 目录下, 我添加了 `demo-host` 作为宿主, 代码可以直接参考 `projects/sample/maven/host-project` 下的代码
+主要依赖 `com.tencent.shadow.dynamic:host:2.3.0`
