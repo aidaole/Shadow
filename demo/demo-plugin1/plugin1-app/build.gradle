@@ -87,8 +87,8 @@ shadow {
 //            }
         }
 
-        loaderApkProjectPath = 'plugin1-loader'
-        runtimeApkProjectPath = 'plugin1-runtime'
+        loaderApkProjectPath = 'demo/demo-plugin1/plugin1-loader'
+        runtimeApkProjectPath = 'demo/demo-plugin1/plugin1-runtime'
 
         version = 4
         compactVersion = [1, 2, 3]

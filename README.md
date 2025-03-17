@@ -47,7 +47,49 @@ demo
         - plugin1-runtime
 ```
 
-`plugin1-manager` 里面的代码需要注意: 这个类下面的包名是不能修改的 :[ManagerFactoryImpl.java](demo/demo-plugin1/plugin1-manager/src/main/java/com/tencent/shadow/dynamic/impl/ManagerFactoryImpl.java)
+目前插件中的代码, 主要是从 [maven](projects/sample/maven) 中copy出来的
+
+需要注意一个点插件打包的配置:
+
+```
+shadow {
+    packagePlugin {
+        pluginTypes {
+            debug {
+                // 配置loader 项目编译, 以及 apk名字
+                loaderApkConfig = new Tuple2('plugin1-loader-debug.apk', ':demo:demo-plugin1:plugin1-loader:assembleDebug')
+                // 配置runtime 项目编译, 以及 apk名字
+                runtimeApkConfig = new Tuple2('plugin1-runtime-debug.apk', ':demo:demo-plugin1:plugin1-runtime:assembleDebug')
+                pluginApks {
+                    pluginApk1 {
+                        businessName = 'demo-plugin1' //businessName相同的插件，context获取的Dir是相同的。businessName留空，表示和宿主相同业务，直接使用宿主的Dir。
+                        partKey = 'demo-plugin1'
+                        buildTask = 'assemblePluginDebug'
+                        // 插件apk路径
+                        apkPath = 'demo/demo-plugin1/plugin1-app/build/outputs/apk/plugin/debug/plugin1-app-plugin-debug.apk'
+                    }
+                }
+            }
+        }
+
+        loaderApkProjectPath = 'demo/demo-plugin1/plugin1-loader' // 配置到plugin1-loader根目录
+        runtimeApkProjectPath = 'demo/demo-plugin1/plugin1-runtime' // 配置到plugin1-loader根目录
+
+        version = 4
+        compactVersion = [1, 2, 3]
+        uuidNickName = "1.1.5"
+    }
+}
+```
+
+`./gradlew packageDebugPlugin` 的时候会自动触发loader和runtime的编译, 并且将插件apk一起打包到 plugin-debug.zip 中
+
+**编译和push脚本**
+
+这里为了方便快速验证, 在根目录下建了 [build.sh](build.sh) 方便快速编译 plugin 和 plugin-manager, push到手机上
+
+
+
 
 
 
