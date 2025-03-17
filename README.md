@@ -10,7 +10,7 @@
 
 clone 项目之后, 如果你的Android Studio比较新, 默认使用的gradle编译环境应该是jdk17, 需要修改为 jdk 11才能编译, 修改位置:
 
-![](./pics/CleanShot%202025-03-14%20at%2014.53.53@2x.png)
+![](./pics/修改gradle11.png)
 
 修改之后应该就可以直接 Sync 通过, 可以直接跑起来 `sample-app` 了
 
@@ -31,3 +31,23 @@ clone 项目之后, 如果你的Android Studio比较新, 默认使用的gradle�
 
 在项目中的 demo 目录下, 我添加了 `demo-host` 作为宿主, 代码可以直接参考 `projects/sample/maven/host-project` 下的代码
 主要依赖 `com.tencent.shadow.dynamic:host:2.3.0`
+
+### 3. 创建插件工程
+
+这里需要注意, 插件中下载器(plugin-manager)和插件的代码是分开的, 所以我们先创建插件下载器. 我这里采用的结构是 宿主一个module, 插件的都放在一个文件夹下,如下:
+
+```
+demo
+    - demo-host
+    - demo-plugin1
+        - plugin1-manager # 插件下载器
+        
+        - plugin1-app     # 插件需要拆分成 app, loader, runtime
+        - plugin1-loader
+        - plugin1-runtime
+```
+
+`plugin1-manager` 里面的代码需要注意: 这个类下面的包名是不能修改的 :[ManagerFactoryImpl.java](demo/demo-plugin1/plugin1-manager/src/main/java/com/tencent/shadow/dynamic/impl/ManagerFactoryImpl.java)
+
+
+

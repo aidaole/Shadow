@@ -103,3 +103,4 @@ def copyLocalPropertiesForIncludeBuilds() {
 }
 
 include ':demo:demo-host'
+include ":demo:demo-plugin1:plugin1-manager"

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.aidaole.demo.host'
+    namespace 'com.aidaole.demo.plugin1.manager'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.aidaole.demo.host"
+        applicationId "com.aidaole.demo.plugin1.manager"
         minSdk 24
         targetSdk 33
         versionCode 1
@@ -38,12 +38,7 @@ android {
 dependencies {
 
     def shadow_version = "2.3.0"
-    implementation("com.tencent.shadow.dynamic:host:$shadow_version")
-
-//    implementation 'androidx.core:core-ktx:1.9.0'
-//    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.7.20')
-//    implementation 'androidx.appcompat:appcompat:1.6.1'
-//    implementation 'com.google.android.material:material:1.8.0'
-//    implementation 'androidx.activity:activity:1.7.2'
-//    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation "com.tencent.shadow.dynamic:manager:$shadow_version"
+    compileOnly "com.tencent.shadow.core:common:$shadow_version"
+    compileOnly "com.tencent.shadow.dynamic:host:$shadow_version"
 }
