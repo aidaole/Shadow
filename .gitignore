@@ -10,3 +10,6 @@
 .externalNativeBuild
 .gradletasknamecache
 sdk/
+
+plugin1-loader
+plugin1-runtime

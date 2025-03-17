@@ -42,15 +42,15 @@ public class Plugin1Manager extends FastPluginManager {
      */
     @Override
     protected String getPluginProcessServiceName() {
-        return "com.tencent.shadow.sample.introduce_shadow_lib.MainPluginProcessService";
+        return "com.aidaole.demo.host.MainPluginProcessService";
     }
 
     @Override
     public void enter(final Context context, long fromId, Bundle bundle, final EnterCallback callback) {
         if (fromId == Constant.FROM_ID_START_ACTIVITY) {
             bundle.putString(Constant.KEY_PLUGIN_ZIP_PATH, "/data/local/tmp/plugin-debug.zip");
-            bundle.putString(Constant.KEY_PLUGIN_PART_KEY, "sample-plugin");
-            bundle.putString(Constant.KEY_ACTIVITY_CLASSNAME, "com.tencent.shadow.sample.plugin.MainActivity");
+            bundle.putString(Constant.KEY_PLUGIN_PART_KEY, "demo-plugin1");
+            bundle.putString(Constant.KEY_ACTIVITY_CLASSNAME, "com.aidaole.demo.plugin1.app.MainActivity");
             onStartActivity(context, bundle, callback);
         } else if (fromId == Constant.FROM_ID_CALL_SERVICE) {
             callPluginService(context);
@@ -108,8 +108,8 @@ public class Plugin1Manager extends FastPluginManager {
 
     private void callPluginService(final Context context) {
         final String pluginZipPath = "/data/local/tmp/plugin-debug.zip";
-        final String partKey = "sample-plugin";
-        final String className = "com.tencent.shadow.sample.plugin.MyService";
+        final String partKey = "demo-plugin1";
+        final String className = "com.aidaole.demo.plugin1.app.MyService";
 
         Intent pluginIntent = new Intent();
         pluginIntent.setClassName(context.getPackageName(), className);

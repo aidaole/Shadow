@@ -12,7 +12,7 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
         initViews()
     }
 
@@ -22,7 +22,7 @@ class MainActivity : Activity() {
             binding.openPlugin1.isEnabled = false
             pluginManager.enter(
                 this@MainActivity,
-                1,
+                1001,
                 Bundle(),
                 object : EnterCallback {
                     override fun onShowLoadingView(view: View) {

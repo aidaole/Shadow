@@ -30,7 +30,7 @@
           这些类不打包在host中，打包在runtime中，以便减少宿主方法数增量
           -->
         <activity
-            android:name="com.tencent.shadow.sample.runtime.PluginDefaultProxyActivity"
+            android:name="com.aidaole.demo.plugin1.runtime.PluginDefaultProxyActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize|layoutDirection"
@@ -39,7 +39,7 @@
             android:process=":plugin" />
 
         <activity
-            android:name="com.tencent.shadow.sample.runtime.PluginSingleInstance1ProxyActivity"
+            android:name="com.aidaole.demo.plugin1.runtime.PluginSingleInstance1ProxyActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize|layoutDirection"
@@ -48,7 +48,7 @@
             android:process=":plugin" />
 
         <activity
-            android:name="com.tencent.shadow.sample.runtime.PluginSingleTask1ProxyActivity"
+            android:name="com.aidaole.demo.plugin1.runtime.PluginSingleTask1ProxyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize|layoutDirection"
