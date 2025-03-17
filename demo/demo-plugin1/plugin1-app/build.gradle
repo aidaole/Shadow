@@ -1,0 +1,97 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.tencent.shadow.plugin'
+
+android {
+    namespace "com.aidaole.demo.plugin1.app"
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.tencent.shadow.sample.plugin"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.create("release")
+            signingConfig.initWith(buildTypes.debug.signingConfig)
+        }
+    }
+
+    // 将插件applicationId设置为和宿主相同
+    productFlavors {
+        plugin {
+            applicationId "com.aidaole.demo.host"
+        }
+    }
+
+    aaptOptions {
+        additionalParameters "--package-id", "0x7E", "--allow-reserved-package-id"
+    }
+}
+
+dependencies {
+    //Shadow Transform后业务代码会有一部分实际引用runtime中的类
+    //如果不以compileOnly方式依赖，会导致其他Transform或者Proguard找不到这些类
+    def shadow_version = "2.3.0"
+    pluginCompileOnly "com.tencent.shadow.core:runtime:$shadow_version"
+}
+
+//这段buildscript配置的dependencies是为了apply plugin: 'com.tencent.shadow.plugin'能找到实现
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        mavenLocal()
+    }
+
+    dependencies {
+        def shadow_version = "2.3.0"
+        classpath "com.tencent.shadow.core:gradle-plugin:$shadow_version"
+    }
+}
+
+shadow {
+    packagePlugin {
+        pluginTypes {
+            debug {
+                loaderApkConfig = new Tuple2('plugin1-loader-debug.apk', ':demo:demo-plugin1:plugin1-loader:assembleDebug')
+                runtimeApkConfig = new Tuple2('plugin1-runtime-debug.apk', ':demo:demo-plugin1:plugin1-runtime:assembleDebug')
+                pluginApks {
+                    pluginApk1 {
+                        businessName = 'demo-plugin1'//businessName相同的插件，context获取的Dir是相同的。businessName留空，表示和宿主相同业务，直接使用宿主的Dir。
+                        partKey = 'demo-plugin1'
+                        buildTask = 'assemblePluginDebug'
+                        apkPath = 'demo/demo-plugin1/plugin1-app/build/outputs/apk/plugin/debug/plugin1-app-plugin-debug.apk'
+                    }
+                }
+            }
+
+//            release {
+//                loaderApkConfig = new Tuple2('sample-loader-release.apk', ':sample-loader:assembleRelease')
+//                runtimeApkConfig = new Tuple2('sample-runtime-release.apk', ':sample-runtime:assembleRelease')
+//                pluginApks {
+//                    pluginApk1 {
+//                        businessName = 'demo'
+//                        partKey = 'sample-plugin'
+//                        buildTask = 'assemblePluginRelease'
+//                        apkPath = 'plugin-app/build/outputs/apk/plugin/release/plugin-app-plugin-release.apk'
+//                    }
+//                }
+//            }
+        }
+
+        loaderApkProjectPath = 'plugin1-loader'
+        runtimeApkProjectPath = 'plugin1-runtime'
+
+        version = 4
+        compactVersion = [1, 2, 3]
+        uuidNickName = "1.1.5"
+    }
+}
