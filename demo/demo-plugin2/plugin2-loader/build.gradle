@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.aidaole.plugin2.loader'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.aidaole.plugin2.loader"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+
+    def shadow_version = "2.3.0"
+    implementation "com.tencent.shadow.dynamic:loader-impl:$shadow_version"
+
+    compileOnly "com.tencent.shadow.core:activity-container:$shadow_version"
+    compileOnly "com.tencent.shadow.core:common:$shadow_version"
+    //下面这行依赖是为了防止在proguard的时候找不到LoaderFactory接口
+    compileOnly "com.tencent.shadow.dynamic:host:$shadow_version"
+}
