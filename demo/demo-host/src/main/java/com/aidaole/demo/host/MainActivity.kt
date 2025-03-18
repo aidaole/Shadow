@@ -39,7 +39,24 @@ class MainActivity : Activity() {
                 })
         }
         binding.openPlugin2.setOnClickListener {
+            val pluginManager = InitApplication.getPluginManager()
+            pluginManager.enter(
+                this@MainActivity,
+                1001,
+                Bundle(),
+                object : EnterCallback {
+                    override fun onShowLoadingView(view: View) {
+                        this@MainActivity.setContentView(view) //显示Manager传来的Loading页面
+                    }
 
+                    override fun onCloseLoadingView() {
+                        this@MainActivity.setContentView(binding.root)
+                    }
+
+                    override fun onEnterComplete() {
+                        binding.openPlugin1.isEnabled = true
+                    }
+                })
         }
     }
 }

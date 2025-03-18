@@ -38,7 +38,7 @@ public class InitApplication {
 
         if (isProcess(application, application.getPackageName())) {
             FixedPathPmUpdater fixedPathPmUpdater
-                    = new FixedPathPmUpdater(new File("/data/local/tmp/plugin1-manager-debug.apk"));
+                    = new FixedPathPmUpdater(new File("/data/local/tmp/plugin2-manager-debug.apk"));
             boolean needWaitingUpdate
                     = fixedPathPmUpdater.wasUpdating()//之前正在更新中，暗示更新出错了，应该放弃之前的缓存
                     || fixedPathPmUpdater.getLatest() == null;//没有本地缓存

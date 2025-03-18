@@ -38,7 +38,7 @@ public class Plugin2Manager extends FastPluginManager {
      */
     @Override
     protected String getName() {
-        return "sample-manager";
+        return "plugin2-manager";
     }
 
     /**
@@ -52,9 +52,9 @@ public class Plugin2Manager extends FastPluginManager {
     @Override
     public void enter(final Context context, long fromId, Bundle bundle, final EnterCallback callback) {
         if (fromId == Constant.FROM_ID_START_ACTIVITY) {
-            bundle.putString(Constant.KEY_PLUGIN_ZIP_PATH, "/data/local/tmp/plugin-debug.zip");
-            bundle.putString(Constant.KEY_PLUGIN_PART_KEY, "demo-plugin1");
-            bundle.putString(Constant.KEY_ACTIVITY_CLASSNAME, "com.aidaole.demo.plugin1.app.MainActivity");
+            bundle.putString(Constant.KEY_PLUGIN_ZIP_PATH, "/data/local/tmp/plugin-debug2.zip");
+            bundle.putString(Constant.KEY_PLUGIN_PART_KEY, "demo-plugin2");
+            bundle.putString(Constant.KEY_ACTIVITY_CLASSNAME, "com.aidaole.plugin2.app.MainActivity");
             onStartActivity(context, bundle, callback);
         } else if (fromId == Constant.FROM_ID_CALL_SERVICE) {
             callPluginService(context);

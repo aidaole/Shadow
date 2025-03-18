@@ -14,9 +14,9 @@ public class SampleComponentManager extends ComponentManager {
     /**
      * sample-runtime 模块中定义的壳子Activity，需要在宿主AndroidManifest.xml注册
      */
-    private static final String DEFAULT_ACTIVITY = "com.aidaole.demo.plugin2.runtime.PluginDefaultProxyActivity";
-    private static final String SINGLE_INSTANCE_ACTIVITY = "com.aidaole.demo.plugin2.runtime.PluginSingleInstance1ProxyActivity";
-    private static final String SINGLE_TASK_ACTIVITY = "com.aidaole.demo.plugin2.runtime.PluginSingleTask1ProxyActivity";
+    private static final String DEFAULT_ACTIVITY = "com.aidaole.plugin2.runtime.PluginDefaultProxyActivity";
+    private static final String SINGLE_INSTANCE_ACTIVITY = "com.aidaole.plugin2.runtime.PluginSingleInstance1ProxyActivity";
+    private static final String SINGLE_TASK_ACTIVITY = "com.aidaole.plugin2.runtime.PluginSingleTask1ProxyActivity";
 
     private Context context;
 
