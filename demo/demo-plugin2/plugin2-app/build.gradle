@@ -4,7 +4,7 @@ apply plugin: "org.jetbrains.kotlin.android"
 
 android {
     namespace 'com.aidaole.plugin2.app'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.aidaole.plugin2.app"
@@ -50,6 +50,8 @@ dependencies {
 
     def shadow_version = "2.3.0"
     pluginCompileOnly "com.tencent.shadow.core:runtime:$shadow_version"
+
+    debugImplementation 'com.aidaole.plugin.flutter1.demo_flutter1:flutter_debug:1.0'
 }
 
 shadow {
