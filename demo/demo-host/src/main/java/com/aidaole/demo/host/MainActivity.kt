@@ -39,7 +39,7 @@ class MainActivity : Activity() {
                 })
         }
         binding.openPlugin2.setOnClickListener {
-            val pluginManager = InitApplication.getPluginManager()
+            val pluginManager = InitApplication.getsPlugin2Manager()
             pluginManager.enter(
                 this@MainActivity,
                 1001,

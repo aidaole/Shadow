@@ -46,7 +46,7 @@ public class Plugin2Manager extends FastPluginManager {
      */
     @Override
     protected String getPluginProcessServiceName() {
-        return "com.aidaole.demo.host.MainPluginProcessService";
+        return "com.aidaole.demo.host.MainPluginProcessService2";
     }
 
     @Override

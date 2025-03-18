@@ -23,6 +23,10 @@
             android:name=".MainPluginProcessService"
             android:process=":plugin" />
 
+        <service
+            android:name=".MainPluginProcessService2"
+            android:process=":plugin2" />
+
         <!--container 注册
           注意configChanges需要全注册
           theme需要注册成透明
@@ -45,7 +49,7 @@
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|screenLayout|fontScale|uiMode|orientation|screenSize|smallestScreenSize|layoutDirection"
             android:hardwareAccelerated="true"
             android:theme="@style/Theme.Shadow"
-            android:process=":plugin" />
+            android:process=":plugin2" />
 
         <activity
             android:name="com.aidaole.demo.plugin1.runtime.PluginSingleInstance1ProxyActivity"
