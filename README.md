@@ -88,6 +88,25 @@ shadow {
 
 这里为了方便快速验证, 在根目录下建了 [build.sh](build.sh) 方便快速编译 plugin 和 plugin-manager, push到手机上
 
+**注意:** 
+
+[demo-plugin1](demo/demo-plugin1) 插件1 是以module形式放在项目结构中的, 
+
+[demo-plugin2](demo/demo-plugin2) 插件2 是一个独立的项目, 需要单独使用AndroidStudio open打开
+
+项目中已经实现在一个host中同时打开两个插件
+
+### 4. 梳理打开流程
+
+![shadow-plugin-load.png](pics/shadow-plugin-load.png)
+
+这里梳理了shadow对 host, plugin-manager, plugin-app, plugin-loader, plugin-runtime 几个关系的梳理和依赖关系
+
+图中一些标红的类(固定类名)是使用反射工作的, 所以需要注意添加keep
+
+
+
+
 
 
 
