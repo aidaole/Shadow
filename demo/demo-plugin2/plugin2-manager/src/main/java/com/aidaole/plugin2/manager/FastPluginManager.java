@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
+import android.util.Pair;
 
 import com.tencent.shadow.core.common.Logger;
 import com.tencent.shadow.core.common.LoggerFactory;
@@ -44,6 +45,7 @@ public abstract class FastPluginManager extends PluginManagerThatUseDynamicLoade
         final PluginConfig pluginConfig = installPluginFromZip(new File(zip), hash);
         final String uuid = pluginConfig.UUID;
         List<Future> futures = new LinkedList<>();
+        List<Future<Pair<String, String>>> extractSoFutures = new LinkedList<>();
         if (pluginConfig.runTime != null && pluginConfig.pluginLoader != null) {
             Future odexRuntime = mFixedPool.submit(new Callable() {
                 @Override
@@ -67,14 +69,9 @@ public abstract class FastPluginManager extends PluginManagerThatUseDynamicLoade
         for (Map.Entry<String, PluginConfig.PluginFileInfo> plugin : pluginConfig.plugins.entrySet()) {
             final String partKey = plugin.getKey();
             final File apkFile = plugin.getValue().file;
-            Future extractSo = mFixedPool.submit(new Callable() {
-                @Override
-                public Object call() throws Exception {
-                    extractSo(uuid, partKey, apkFile);
-                    return null;
-                }
-            });
+            Future<Pair<String, String>> extractSo = mFixedPool.submit(() -> extractSo(uuid, partKey, apkFile));
             futures.add(extractSo);
+            extractSoFutures.add(extractSo);
             if (odex) {
                 Future odexPlugin = mFixedPool.submit(new Callable() {
                     @Override
@@ -90,28 +87,28 @@ public abstract class FastPluginManager extends PluginManagerThatUseDynamicLoade
         for (Future future : futures) {
             future.get();
         }
-        onInstallCompleted(pluginConfig, new HashMap<>());
+        Map<String, String> soDirMap = new HashMap<>();
+        for (Future<Pair<String, String>> future : extractSoFutures) {
+            Pair<String, String> pair = future.get();
+            soDirMap.put(pair.first, pair.second);
+        }
+        onInstallCompleted(pluginConfig, soDirMap);
 
         return getInstalledPlugins(1).get(0);
     }
 
 
-    public void startPluginActivity(Context context, InstalledPlugin installedPlugin, String partKey, Intent pluginIntent) throws RemoteException, TimeoutException, FailedException {
-        Intent intent = convertActivityIntent(installedPlugin, partKey, pluginIntent);
-        if (!(context instanceof Activity)) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    protected void callApplicationOnCreate(String partKey) throws RemoteException {
+        Map map = mPluginLoader.getLoadedPlugin();
+        Boolean isCall = (Boolean) map.get(partKey);
+        if (isCall == null || !isCall) {
+            mPluginLoader.callApplicationOnCreate(partKey);
         }
-        context.startActivity(intent);
     }
 
-    public Intent convertActivityIntent(InstalledPlugin installedPlugin, String partKey, Intent pluginIntent) throws RemoteException, TimeoutException, FailedException {
-        loadPlugin(installedPlugin.UUID, partKey);
-        return mPluginLoader.convertActivityIntent(pluginIntent);
-    }
-
-    private void loadPluginLoaderAndRuntime(String uuid) throws RemoteException, TimeoutException, FailedException {
+    private void loadPluginLoaderAndRuntime(String uuid, String partKey) throws RemoteException, TimeoutException, FailedException {
         if (mPpsController == null) {
-            bindPluginProcessService(getPluginProcessServiceName());
+            bindPluginProcessService(getPluginProcessServiceName(partKey));
             waitServiceConnected(10, TimeUnit.SECONDS);
         }
         loadRunTime(uuid);
@@ -119,18 +116,14 @@ public abstract class FastPluginManager extends PluginManagerThatUseDynamicLoade
     }
 
     protected void loadPlugin(String uuid, String partKey) throws RemoteException, TimeoutException, FailedException {
-        loadPluginLoaderAndRuntime(uuid);
+        loadPluginLoaderAndRuntime(uuid, partKey);
         Map map = mPluginLoader.getLoadedPlugin();
         if (!map.containsKey(partKey)) {
             mPluginLoader.loadPlugin(partKey);
         }
-        Boolean isCall = (Boolean) map.get(partKey);
-        if (isCall == null || !isCall) {
-            mPluginLoader.callApplicationOnCreate(partKey);
-        }
     }
 
 
-    protected abstract String getPluginProcessServiceName();
+    protected abstract String getPluginProcessServiceName(String partKey);
 
 }

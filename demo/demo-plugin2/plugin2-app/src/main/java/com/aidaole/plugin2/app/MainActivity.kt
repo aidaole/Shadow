@@ -37,8 +37,6 @@ class MainActivity : AppCompatActivity() {
             .put("my_engine_id", flutterEngine)
 
         binding.openSecondActivity.setOnClickListener {
-
-
             startActivity(Intent(this, SecondActivity::class.java))
         }
     }

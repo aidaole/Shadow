@@ -43,7 +43,11 @@ class MainActivity : Activity() {
             pluginManager.enter(
                 this@MainActivity,
                 1001,
-                Bundle(),
+                Bundle().apply {
+                    putString("KEY_ACTIVITY_CLASSNAME", "com.aidaole.plugin2.app.MainActivity")
+                    putString("pluginZipPath", "/data/local/tmp/plugin-debug2.zip")
+                    putString("KEY_PLUGIN_PART_KEY", "demo-plugin2")
+                },
                 object : EnterCallback {
                     override fun onShowLoadingView(view: View) {
                         this@MainActivity.setContentView(view) //显示Manager传来的Loading页面
@@ -54,7 +58,7 @@ class MainActivity : Activity() {
                     }
 
                     override fun onEnterComplete() {
-                        binding.openPlugin1.isEnabled = true
+                        binding.openPlugin2.isEnabled = true
                     }
                 })
         }
